@@ -12,6 +12,11 @@ targets:
       - path: FingerPianoiOS
     info:
       path: FingerPianoiOS/Info.plist
+      properties:
+        CFBundleDisplayName: 五指弹琴
+        UILaunchScreen: {}
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
     dependencies:
       - target: FingerPianoWatch
         embed: true
@@ -22,4 +27,10 @@ targets:
       - path: FingerPianoWatch
     info:
       path: FingerPianoWatch/Info.plist
-    productBundleIdentifier: com.fingerpiano.FingerPiano.watchkitapp
+      properties:
+        CFBundleDisplayName: 五指弹琴
+        WKWatchKitApp: true
+        WKCompanionAppBundleIdentifier: com.fingerpiano.FingerPiano
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fingerpiano.FingerPiano.watchkitapp
