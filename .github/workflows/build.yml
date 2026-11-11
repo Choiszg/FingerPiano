@@ -1,1 +1,57 @@
+name: Build FingerPiano (watchOS)
 
+on:
+  workflow_dispatch:
+  push:
+    branches: [main, master]
+
+jobs:
+  build:
+    runs-on: macos-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Select Xcode (watchOS 11 SDK)
+        run: |
+          sudo xcode-select -s /Applications/Xcode.app/Contents/Developer || true
+          xcodebuild -version
+
+      - name: Install xcodegen
+        run: brew install xcodegen
+
+      - name: Generate Xcode project
+        run: xcodegen generate
+
+      - name: Build iOS app (embeds watchOS app) — unsigned
+        run: |
+          xcodebuild build \
+            -scheme FingerPiano \
+            -destination 'generic/platform=iOS' \
+            -configuration Release \
+            CODE_SIGN_IDENTITY="" \
+            CODE_SIGNING_REQUIRED=NO \
+            CODE_SIGNING_ALLOWED=NO
+
+      - name: Package unsigned IPA
+        run: |
+          APP=$(find ~/Library/Developer/Xcode/DerivedData -name 'FingerPiano.app' -type d | head -1)
+          echo "Found app: $APP"
+          if [ -z "$APP" ]; then echo "ERROR: FingerPiano.app not found"; exit 1; fi
+          mkdir -p build/Payload
+          cp -R "$APP" build/Payload/
+          (cd build && zip -r FingerPiano-unsigned.ipa Payload >/dev/null)
+          ls -la build/
+          echo "--- verify watch app embedded ---"
+          if [ -d "build/Payload/FingerPiano.app/Watch/FingerPianoWatch.app" ]; then
+            echo "OK: watch app embedded"
+          else
+            echo "WARN: FingerPianoWatch.app not found under Watch/ — listing:"
+            find build/Payload/FingerPiano.app -maxdepth 2 -name '*.app' || true
+          fi
+
+      - name: Upload unsigned IPA
+        uses: actions/upload-artifact@v4
+        with:
+          name: FingerPiano-unsigned-ipa
+          path: build/FingerPiano-unsigned.ipa
