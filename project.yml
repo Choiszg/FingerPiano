@@ -21,16 +21,18 @@ targets:
       - target: FingerPianoWatch
         embed: true
   FingerPianoWatch:
-    type: application
+    type: application.watchapp2
     platform: watchOS
     sources:
       - path: FingerPianoWatch
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.fingerpiano.FingerPiano.watchkitapp
+        PRODUCT_NAME: FingerPianoWatch
+        TARGETED_DEVICE_FAMILY: "4"
     info:
       path: FingerPianoWatch/Info.plist
       properties:
         CFBundleDisplayName: 五指弹琴
         WKWatchKitApp: true
         WKCompanionAppBundleIdentifier: com.fingerpiano.FingerPiano
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.fingerpiano.FingerPiano.watchkitapp
