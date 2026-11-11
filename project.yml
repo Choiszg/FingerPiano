@@ -10,6 +10,8 @@ targets:
     platform: iOS
     sources:
       - path: FingerPianoiOS
+    info:
+      path: FingerPianoiOS/Info.plist
     dependencies:
       - target: FingerPianoWatch
         embed: true
@@ -18,5 +20,6 @@ targets:
     platform: watchOS
     sources:
       - path: FingerPianoWatch
-    dependencies:
-      - target: FingerPiano
+    info:
+      path: FingerPianoWatch/Info.plist
+    productBundleIdentifier: com.fingerpiano.FingerPiano.watchkitapp
