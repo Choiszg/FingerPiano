@@ -4,17 +4,17 @@ options:
   deploymentTarget:
     iOS: "16.0"
     watchOS: "11.0"
-settings:
-  base:
-    PRODUCT_BUNDLE_IDENTIFIER: com.fingerpiano
 targets:
   FingerPiano:
     type: application
     platform: iOS
     sources:
       - path: FingerPianoiOS
+    dependencies:
+      - target: FingerPianoWatch
+        embed: true
   FingerPianoWatch:
-    type: watch2-app
+    type: application
     platform: watchOS
     sources:
       - path: FingerPianoWatch
