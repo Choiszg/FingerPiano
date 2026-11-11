@@ -22,7 +22,7 @@
 	<string>1</string>
 	<key>WKCompanionAppBundleIdentifier</key>
 	<string>com.fingerpiano.FingerPiano</string>
-	<key>WKWatchKitApp</key>
+	<key>WKApplication</key>
 	<true/>
 </dict>
 </plist>
